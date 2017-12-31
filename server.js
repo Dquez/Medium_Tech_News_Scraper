@@ -1,29 +1,36 @@
 var express = require("express");
+// Initialize Express
+var app = express();
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-
 var request = require("request");
 var cheerio = require("cheerio");
 
 // Require all models
 var db = require("./models");
 
-var PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Initialize Express
-var app = express();
+
+const exphbs = require("express-handlebars");
+
+app.engine("handlebars", exphbs({
+    defaultLayout: "main"
+}));
+app.set("view engine", "handlebars");
+ 
 
 // Configure middleware
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
-// Use body-parser for handling form submissions
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-// Use express.static to serve the public folder as a static directory
-app.use(express.static("public"));
+ 
+// Sets up the Express middleware to handle data parsing
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 var localDB = 'mongodb://localhost/MediumScraper'
 var MONGODB_URI = process.env.MONGODB_URI || localDB;
@@ -37,7 +44,13 @@ mongoose.Promise = Promise;
 // });
 
 // Routes
+// =============================================================
+require("./routes/html-routes")(app);
+// require("./routes/user-api-routes")(app);
+// require("./routes/inventory-api-routes")(app);
 
+// Use express.static to serve the public folder as a static directory
+app.use(express.static("public"));
 
 app.get("/web", function(req, res){
   request("https://medium.com/topic/technology", function(error, response, html) {
@@ -64,7 +77,6 @@ app.get("/web", function(req, res){
         var headline = $(element).find("h3").text();
         var summary = $(element).find("h4").text();
         var url = $(element).find("a").attr("href");
-
         // Save these results in an object that we'll push into the results array we defined earlier
         results.push({
           headline: headline,
