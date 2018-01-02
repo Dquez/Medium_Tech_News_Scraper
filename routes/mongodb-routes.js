@@ -29,7 +29,7 @@ module.exports = function (app) {
     //   console.log(hbsObject);
     //   res.render("index", hbsObject);
     // });
-    app.get("/web", function (req, res) {
+    app.get("/scrape", function (req, res) {
         request("https://medium.com/topic/technology", function (error, response, html) {
 
             // Load the HTML into cheerio and save it to a variable
@@ -68,7 +68,7 @@ module.exports = function (app) {
                         console.log(err.errmsg);
                     })
             })
-            res.send("Scrape Complete");
+            res.redirect("/");
         });
     });
 
