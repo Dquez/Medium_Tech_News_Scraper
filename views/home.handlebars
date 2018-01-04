@@ -46,31 +46,33 @@
       font-size: 18px;
     }
   </style>
-</head> --}}
- {{!--
+</head> --}} {{!--
 
 <body> --}}
+
   <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Medium Scraper</title>
-  <!-- CSS  -->
-  <link href="assets/css/home.css" type="text/css" rel="stylesheet" media="screen,projection">
-</head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Medium Scraper</title>
+    <!-- CSS  -->
+    <link href="assets/css/home.css" type="text/css" rel="stylesheet" media="screen,projection">
+  </head>
   <div class="topnav" id="myTopnav">
-  <a class="active" href="#medium">Medium Scraper</a>
-  <a href="#home">Home</a>
-  <a href="/saved-articles">Saved Articles</a>
-  <a id="scrape" href="#scrape">Scrape Medium</a>
-</div>
-  {{!-- <button id="scrape">SCRAPE MEDIUM!</button> --}}
+    <a class="active" href="#medium">Medium Scraper</a>
+    <a href="#home">Home</a>
+    <a id="saved" href="#saved-articles">Saved Articles</a>
+    <a id="scrape" href="#scrape">Scrape Medium</a>
+  </div>
+  {{!--
+  <button id="scrape">SCRAPE MEDIUM!</button> --}}
   <!-- The Modal -->
   <div id="myModal" class="modal">
 
     <!-- Modal content -->
     <div class="modal-content">
       <span class="close">&times;</span>
-      <p id="article-info"></p>
+      <p id="article-info">Added <span id="article-length"></span> new articles! 
+      </p>
     </div>
 
   </div>
@@ -79,11 +81,19 @@
     <h2>
       <i>If you can do this...the homework should be no problem.</i>
     </h2>
-    <div id="articles"></div>
+    <div id="articles">
+      {{#each articles}}
+      <p>{{headline}}
+        <br />{{summary}}
+        <br />{{url}}</p>
+      <button data-id={{_id}} class='saveArticle'>SAVE ARTICLE</button>
+      {{/each}}
+    </div>
     <div id="notes"></div>
   </div>
   {{!--
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}} {{!--
-  <script src="app.js"></script> --}} {{!-- </body> --}} {{!--
-
-</html> --}}
+  <script src="app.js"></script> --}} {{!-- </body> --}} {{!-- for (let i = 0; i
+< data.length; i++) { // Display the apropos information on the
+  page $( "#articles").append( "<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary +
+  "<br />" + data[i].url + "</p><button data-id='" + data[i]._id + "' class='saveArticle'>SAVE ARTICLE</button>"); } </html> --}}

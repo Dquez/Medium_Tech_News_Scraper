@@ -1,37 +1,28 @@
-// loads articles once page loads, if there is no data, the user will have to click the scrape button
-$.getJSON("/articles", function (data) {
-  // For each one
-  for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p><button data-id='" + data[i]._id + "' class='saveArticle'>SAVE ARTICLE</button>");
-  }
-});
-
-
 $("#scrape").on("click", function () {
   $.ajax({
     method: "GET",
     url: "/scrape"
-  }).done(function () {
+  }).done(function (results) {
     // Grab the articles as a json
-    $.getJSON("/articles", function (data) {
-      // For each one
-      for (var i = 0; i < data.length; i++) {
-        // Display the apropos information on the page
-        $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p><button data-id='" + data[i]._id + "' class='saveArticle'>SAVE ARTICLE</button>");
-      }
+    $.ajax({
+      method: "GET",
+      url: "/"
+    }).done(function (data) {
+      // console.log(data.length);
       let modal = $("#myModal");
       $(modal).css("display", "block");
-      $("#article-info").text("Added " + data.length + " new articles!");
+      // the results paramater was passed in the callback function from when we scraped Medium
+      $("#article-length").text(results.length);
       $(".close").on("click", function () {
         $(modal).css("display", "none");
       });
-
       window.onclick = function (event) {
         if (event.target !== modal) {
           $(modal).css("display", "none");
+          window.location.replace("/")
         }
       }
+      
     });
   })
 })
@@ -44,11 +35,24 @@ $(document).on("click", ".saveArticle", function () {
   $.ajax({
     method: "GET",
     url: "/save-article/" + thisId
-  }).done(function (data){
-    console.log(data);
-   });
+  }).done(function (data) {
+    // console.log(data);
+  });
 });
 
+$("#saved").on("click", function () {
+
+  $.ajax({
+    method: "GET",
+    url: "/saved-articles"
+  }).done(function (data) {
+    $("#articles").empty();
+    for (let i = 0; i < data.length; i++) {
+      // Display the apropos information on the page
+      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p><button data-id='" + data[i]._id + "' class='saveArticle'>SAVE ARTICLE</button>");
+    }
+  });
+});
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function () {
