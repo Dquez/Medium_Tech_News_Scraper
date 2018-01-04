@@ -19,7 +19,7 @@ $("#scrape").on("click", function () {
       window.onclick = function (event) {
         if (event.target !== modal) {
           $(modal).css("display", "none");
-          window.location.replace("/")
+          window.location.replace("/");
         }
       }
       
@@ -33,7 +33,7 @@ $(document).on("click", ".saveArticle", function () {
 
   // Now make an ajax call for the Article
   $.ajax({
-    method: "GET",
+    method: "POST",
     url: "/save-article/" + thisId
   }).done(function (data) {
     // console.log(data);
@@ -46,11 +46,19 @@ $("#saved").on("click", function () {
     method: "GET",
     url: "/saved-articles"
   }).done(function (data) {
-    $("#articles").empty();
-    for (let i = 0; i < data.length; i++) {
-      // Display the apropos information on the page
-      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p><button data-id='" + data[i]._id + "' class='saveArticle'>SAVE ARTICLE</button>");
+    // $("#articles").empty();
+    console.log(data);
+    if(data){
+      window.location.replace("/saved-articles");
     }
+    else {
+      alert("You have no saved articles");
+    }
+ 
+    // for (let i = 0; i < data.length; i++) {
+    //   // Display the apropos information on the page
+    //   $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p><button data-id='" + data[i]._id + "' class='saveArticle'>SAVE ARTICLE</button>");
+    // }
   });
 });
 

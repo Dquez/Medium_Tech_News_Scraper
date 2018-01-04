@@ -11,16 +11,12 @@ const db = require("../models");
 // =============================================================
 module.exports = function (app) {
 
-
     app.get("/", function (req, res) {
         db.Article
             .find({})
             .then(function (dbArt) {
                 if (dbArt) {
-                    // const artLen = dbArt.length;
-                    // console.log(artLen);
                     let hbsObject = {
-                        // length: artLen,
                         articles: dbArt
                     };
                 res.render("home", hbsObject);

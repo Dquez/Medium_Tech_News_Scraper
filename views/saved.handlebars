@@ -1,1 +1,22 @@
-<div>Hello</div>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Medium Scraper</title>
+    <!-- CSS  -->
+    <link href="assets/css/home.css" type="text/css" rel="stylesheet" media="screen,projection">
+  </head>
+
+
+<div class="topnav" id="myTopnav">
+    <a class="active" href="#medium">Medium Scraper</a>
+    <a href="/">Home</a>
+</div>
+<div id="articles">
+    {{#each articles}}
+    <p>{{headline}}
+        <br />{{summary}}
+        <br />{{url}}</p>
+    <button data-id={{_id}} class='addNote'>ARTICLE NOTES</button>
+    <button data-id={{_id}} class='removeSaved'>REMOVED FROM SAVED</button>
+    {{/each}}
+</div>
