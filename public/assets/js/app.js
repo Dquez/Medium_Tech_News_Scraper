@@ -3,7 +3,7 @@ $.getJSON("/articles", function (data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p>");
+    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p><button data-id='" + data[i]._id + "' class='saveArticle'>SAVE ARTICLE</button>");
   }
 });
 
@@ -18,7 +18,7 @@ $("#scrape").on("click", function () {
       // For each one
       for (var i = 0; i < data.length; i++) {
         // Display the apropos information on the page
-        $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p>");
+        $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p><button data-id='" + data[i]._id + "' class='saveArticle'>SAVE ARTICLE</button>");
       }
       let modal = $("#myModal");
       $(modal).css("display", "block");
@@ -26,7 +26,7 @@ $("#scrape").on("click", function () {
       $(".close").on("click", function () {
         $(modal).css("display", "none");
       });
-      
+
       window.onclick = function (event) {
         if (event.target !== modal) {
           $(modal).css("display", "none");
@@ -36,31 +36,18 @@ $("#scrape").on("click", function () {
   })
 })
 
+$(document).on("click", ".saveArticle", function () {
+  // Save the id from the p tag
+  var thisId = $(this).attr("data-id");
 
-// // Get the modal
-// var modal = document.getElementById('myModal');
-
-// // Get the button that opens the modal
-// var btn = document.getElementById("myBtn");
-
-// // Get the <span> element that closes the modal
-// var span = document.getElementsByClassName("close")[0];
-
-// // When the user clicks on the button, open the modal 
-// btn.onclick = function() {
-//     modal.style.display = "block";
-// }
-
-// // When the user clicks on <span> (x), close the modal
-// span.onclick = function() {
-//     modal.style.display = "none";
-// }
-
-// // When the user clicks anywhere outside of the modal, close it
-
-
-
-
+  // Now make an ajax call for the Article
+  $.ajax({
+    method: "GET",
+    url: "/save-article/" + thisId
+  }).done(function (data){
+    console.log(data);
+   });
+});
 
 
 // Whenever someone clicks a p tag

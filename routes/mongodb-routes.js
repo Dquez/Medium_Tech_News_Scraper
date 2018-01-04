@@ -90,12 +90,14 @@ app.get("/articles", function (req, res) {
   });
   
   // Route for grabbing a specific Article by id, populate it with it's note
-  app.get("/articles/:id", function (req, res) {
+  app.get("/save-article/:id", function (req, res) {
     // TODO
     // ====
     db.Article
-      .find({
-        _id: req.params.id
+      .findOneAndUpdate({_id: req.params.id}, {
+        $set: {
+          isSaved: true
+        }
       })
       .then(function (dbArt) {
         // If all Notes are successfully found, send them back to the client
