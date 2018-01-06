@@ -1,0 +1,151 @@
+/* Add a black background color to the top navigation */
+
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+
+/* Style the links inside the navigation bar */
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+
+/* Change the color of links on hover */
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+
+/* Add a color to the active/current link */
+
+.topnav a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.modal,
+.modal-box {
+    z-index: 900;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, .8);
+    overflow: auto;
+}
+
+.modal-box {
+    position: relative;
+    width: 80%;
+    max-width: 920px;
+    margin: 100px auto;
+    animation-name: modalbox;
+    animation-duration: .3s;
+    animation-timing-function: ease-out;
+}
+
+.modal-header {
+    padding: 20px 40px;
+    background: #546E7A;
+    color: #ffffff;
+}
+
+.modal-body {
+    background: #ECEFF1;
+    padding: 60px 40px;
+}
+
+
+/* Close Button */
+
+.close-modal {
+    text-align: right;
+    cursor: pointer;
+}
+
+
+/* Animation */
+
+@-webkit-keyframes modalbox {
+    0% {
+        top: -250px;
+        opacity: 0;
+    }
+    100% {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes modalbox {
+    0% {
+        top: -250px;
+        opacity: 0;
+    }
+    100% {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+
+/* Aditional Styles */
+
+* {
+    font-family: "Arial", sans-serif;
+    font-weight: normal;
+}
+
+p {
+    line-height: 1.4em;
+}
+
+.modal-trigger,
+button {
+    /* top: 50%;
+  left: 50%; */
+    padding: 20px 40px;
+    border: 1px solid #1a191998;
+    text-decoration: none;
+}
+
+.modal-trigger {
+    background: transparent;
+    color: #10b639;
+    position:relative;
+    top:25px;
+    left:8%;
+    margin-right:3em;
+    /* position: absolute; */
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    transition: ease .2s;
+}
+
+button {
+    border: 1px solid #333333;
+    outline: none;
+    color: #333333;
+}
+
+.modal-trigger:hover {
+    padding: 20px 60px;
+}
