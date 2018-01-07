@@ -43,10 +43,8 @@ $(document).on("click", ".addNote", function () {
         method: "POST",
         url: "/articles/" + thisId,
         data: {
-          // Value taken from title input
-        //   title: $("#titleinput").val(),
           // Value taken from note textarea
-          body: $(this).siblings(".bodyinput").val()
+          message: $(this).siblings(".bodyinput").val()
         }
       })
       // With that done

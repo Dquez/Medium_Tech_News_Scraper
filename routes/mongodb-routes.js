@@ -82,8 +82,6 @@ module.exports = function (app) {
 
     // Route for grabbing a specific Article by id, populate it with it's note
     app.post("/save-article/:id", function (req, res) {
-        // TODO
-        // ====
         db.Article
             .findOneAndUpdate({
                 _id: req.params.id
@@ -102,41 +100,38 @@ module.exports = function (app) {
             });
     });
     // Route for grabbing a specific Article by id, populate it with it's note
-    app.get("/articles/:id", function (req, res) {
+    app.get("/articles/:id", function(req, res) {
         // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
         db.Article
             .findOne({
                 _id: req.params.id
             })
             // ..and populate all of the notes associated with it
-            .populate("note")
-            .then(function (dbNote) {
-                console.log(dbNote);
+            .populate("notes")
+            .then(function (dbArticle) {
+                console.log("This is dbNote on the get route : " + dbArticle);
                 // If we were able to successfully find an Article with the given id, send it back to the client
-                res.json(dbNote);
+                res.json(dbArticle);
             })
             .catch(function (err) {
                 // If an error occurred, send it to the client
                 res.json(err);
             });
     });
+
+    // ValidatorError {message: "Cast to ObjectId failed for value "[ { _id: 5a5139…", name: "ValidatorError", properties: Object, …}
     // Route for saving/updating an Article's associated Note
-    app.post("/articles/:id", function (req, res) {
-        // TODO
-        // ====
-        console.log(req.body);
+    app.post("/articles/:id", function(req, res) {
         db.Note
             .create(req.body)
-            .then(function (dbNote) {
-                return db.Article.findOneAndUpdate({_id:req.params.id}, {
-                    $push: {
-                        note: dbNote._id
-                    }
-                }, {
-                    new: true
-                });
-            })
-            .then(function (dbArt) {
+            .then(function(dbNote) {
+                console.log("This is dbnote: " + dbNote);
+                console.log(dbNote._id);
+                // dbNote._id = mongoose.Types.ObjectId(dbNote._id);
+                return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { notes: dbNote._id}}, { new: true });
+                // return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+            }).then(function (dbArt) {
+                console.log("This is dbArt: " + dbArt.notes);
                 // If the User was updated successfully, send it back to the client
                 res.json(dbArt);
             })
@@ -144,10 +139,5 @@ module.exports = function (app) {
                 // If an error occurs, send it back to the client
                 res.json(err);
             });
-        // save the new note that gets posted to the Notes collection
-        // then find an article from the req.params.id
-        // and update it's "note" property with the _id of the new note
     });
-
-
 };
