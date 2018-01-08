@@ -68,7 +68,7 @@ module.exports = function (app) {
                     let hbsObject = {
                         articles: dbArt
                     };
-                    console.log(dbArt)
+                    // console.log(dbArt)
                     res.render("saved", hbsObject);
                 } else {
                     res.send(dbArt);
@@ -109,17 +109,19 @@ module.exports = function (app) {
             // ..and populate all of the notes associated with it
             .populate("notes")
             .then(function (dbArticle) {
-                console.log("This is dbNote on the get route : " + dbArticle);
                 // If we were able to successfully find an Article with the given id, send it back to the client
-                res.json(dbArticle);
+                if (dbArticle.notes) {
+                    res.send(dbArticle.notes);
+                    }
+                 else {
+                    res.send(dbArticle);
+                }
             })
             .catch(function (err) {
                 // If an error occurred, send it to the client
                 res.json(err);
             });
     });
-
-    // ValidatorError {message: "Cast to ObjectId failed for value "[ { _id: 5a5139…", name: "ValidatorError", properties: Object, …}
     // Route for saving/updating an Article's associated Note
     app.post("/articles/:id", function(req, res) {
         db.Note
@@ -140,4 +142,8 @@ module.exports = function (app) {
                 res.json(err);
             });
     });
+    app.get("/notes", function(req,res){
+        res.render("notes");
+    })
 };
+

@@ -128,10 +128,10 @@ button {
 .modal-trigger {
     background: transparent;
     color: #10b639;
-    position:relative;
-    top:25px;
-    left:8%;
-    margin-right:3em;
+    position: relative;
+    top: 25px;
+    left: 8%;
+    margin-right: 3em;
     /* position: absolute; */
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
