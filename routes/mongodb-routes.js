@@ -100,7 +100,7 @@ module.exports = function (app) {
             });
     });
     // Route for grabbing a specific Article by id, populate it with it's note
-    app.get("/articles/:id", function(req, res) {
+    app.get("/articles/:id", function (req, res) {
         // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
         db.Article
             .findOne({
@@ -112,8 +112,7 @@ module.exports = function (app) {
                 // If we were able to successfully find an Article with the given id, send it back to the client
                 if (dbArticle.notes) {
                     res.send(dbArticle.notes);
-                    }
-                 else {
+                } else {
                     res.send(dbArticle);
                 }
             })
@@ -123,14 +122,22 @@ module.exports = function (app) {
             });
     });
     // Route for saving/updating an Article's associated Note
-    app.post("/articles/:id", function(req, res) {
+    app.post("/articles/:id", function (req, res) {
         db.Note
             .create(req.body)
-            .then(function(dbNote) {
+            .then(function (dbNote) {
                 console.log("This is dbnote: " + dbNote);
                 console.log(dbNote._id);
                 // dbNote._id = mongoose.Types.ObjectId(dbNote._id);
-                return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { notes: dbNote._id}}, { new: true });
+                return db.Article.findOneAndUpdate({
+                    _id: req.params.id
+                }, {
+                    $push: {
+                        notes: dbNote._id
+                    }
+                }, {
+                    new: true
+                });
                 // return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
             }).then(function (dbArt) {
                 console.log("This is dbArt: " + dbArt.notes);
@@ -142,8 +149,15 @@ module.exports = function (app) {
                 res.json(err);
             });
     });
-    app.get("/notes", function(req,res){
-        res.render("notes");
-    })
-};
+    app.delete("/notes/:id/:articleId", function (req, res) {
+        // Equivalent to `parent.children.pull(_id)`
+        console.log(req.params.id);
+        console.log(req.params.articleId);
+        db.Article.update( { _id: req.params.articleId }, { $pullAll: { notes: [req.params.id] } } )
+        .then(function(dbArt){
 
+            console.log(dbArt);
+            res.json(dbArt);
+        });
+    });
+};

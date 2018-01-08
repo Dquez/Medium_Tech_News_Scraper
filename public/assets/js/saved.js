@@ -14,25 +14,8 @@ $(document).on("click", ".addNote", function () {
         .done(function (data) {
             console.log(data);
             data.forEach(function (note) {
-                $("#notes").append(`<p>${note.message}</p><button class="notes" data-id="${note._id}>&#10006;</button>`);
+                $("#notes").append(`<p>${note.message}</p><button class='delNote' data-id='${note._id}'>X</button>`);
             });
-
-            // // The title of the article
-            // $("#notes").append("<h2>" + data.title + "</h2>");
-            // // An input to enter a new title
-            // $("#notes").append("<input id='titleinput' name='title' >");
-            // // A textarea to add a new note body
-            // $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
-            // // A button to submit a new note, with the id of the article saved to it
-            // $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
-
-            // // If there's a note in the article
-            // if (data.note) {
-            //   // Place the title of the note in the title input
-            //   $("#titleinput").val(data.note.title);
-            //   // Place the body of the note in the body textarea
-            //   $("#bodyinput").val(data.note.body);
-            // }
         });
 });
 
@@ -49,6 +32,29 @@ $(document).on("click", ".save-note", function () {
                 // Value taken from note textarea
                 message: $(this).siblings(".bodyinput").val()
             }
+        })
+        // With that done
+        .done(function (data) {
+            // Log the response
+            console.log(data);
+        });
+
+    // Also, remove the values entered in the input and textarea for note entry
+    // $("#titleinput").val("");
+    $(this).siblings(".bodyinput").val("");
+});
+
+// When you click the delete note button
+$(document).on("click", ".delNote", function () {
+    // Grab the id associated with the article from the submit button
+    const thisId = $(this).data("id");
+    const articleId = $(this).parents(".modal-body").data("id");
+    console.log(articleId)
+    // console.log($(this).siblings(".bodyinput").val());
+    // Run a DELETE request to change the note, using what's entered in the inputs
+    $.ajax({
+            method: "DELETE",
+            url: "/notes/" + thisId + "/" + articleId
         })
         // With that done
         .done(function (data) {
