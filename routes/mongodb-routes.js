@@ -151,13 +151,26 @@ module.exports = function (app) {
     });
     app.delete("/notes/:id/:articleId", function (req, res) {
         // Equivalent to `parent.children.pull(_id)`
-        console.log(req.params.id);
-        console.log(req.params.articleId);
-        db.Article.update( { _id: req.params.articleId }, { $pullAll: { notes: [req.params.id] } } )
-        .then(function(dbArt){
+        const noteId = req.params.id;
+        const articleId = req.params.articleId;
+        db.Article.update({
+                _id: articleId
+            }, {
+                $pull: {
+                    notes: noteId
+                }
+            })
+            .then(function (dbArt) {
+                return db.Note.findByIdAndRemove({
+                    _id: noteId
+                }).then(function (removed) {
+                    console.log(removed);
+                }).catch(function (err) {
+                    // If an error occurs, send it back to the client
+                    res.json(err);
+                });
 
-            console.log(dbArt);
-            res.json(dbArt);
-        });
+                res.json(dbArt);
+            });
     });
 };
