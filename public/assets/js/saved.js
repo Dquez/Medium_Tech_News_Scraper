@@ -1,10 +1,9 @@
 // Whenever someone clicks a p tag
 $(document).on("click", ".addNote", function () {
     // Empty the notes from the note section
-    $("#notes").empty();
+
     // Save the id from the p tag
     var thisId = $(this).attr("data-id");
-
     // Now make an ajax call for the Article
     $.ajax({
             method: "GET",
@@ -14,8 +13,10 @@ $(document).on("click", ".addNote", function () {
         .done(function (data) {
             console.log(data);
             data.forEach(function (note) {
-                $("#notes").append(`<p>${note.message}</p><button class='delNote' data-id='${note._id}'>X</button>`);
-            });
+                // This grabs the div with a data id equal to the article ID clicked and appends information to the specific notes div. Each addNote button opens up their own respective modal which is I traversed the DOM. Data coming in from using handlebars made this client-side manipulation of modals difficult
+                $("div").data("id", thisId).children("#notes").append(`<p>${note.message}
+                </p><button class='delNote' data-id='${note._id}'>X</button>`);
+            });    
         });
 });
 
@@ -66,6 +67,21 @@ $(document).on("click", ".delNote", function () {
     // $("#titleinput").val("");
     $(this).siblings(".bodyinput").val("");
 });
+// When you click the delete note button
+$(document).on("click", ".removeSaved", function () {
+    // Grab the id associated with the article from the submit button
+    const thisId = $(this).data("id");
+    // Run a PUT request to change the note using the article ID
+    $.ajax({
+            method: "PUT",
+            url: "/article/" + thisId
+        })
+        // With that done
+        .done(function (data) {
+            // Log the response
+            window.location.replace("/saved-articles");
+        });
+});
 
 $(".modal-trigger").click(function (e) {
     e.preventDefault();
@@ -79,6 +95,7 @@ $(".close-modal, .modal-sandbox").click(function () {
     $(".modal").css({
         "display": "none"
     });
+    $("div#notes").empty();
 });
 
 // // console.log(data.length);

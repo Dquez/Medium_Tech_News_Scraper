@@ -149,6 +149,25 @@ module.exports = function (app) {
                 res.json(err);
             });
     });
+    app.put("/article/:id", function (req, res) {
+        // Equivalent to `parent.children.pull(_id)`
+
+        const articleId = req.params.id;
+        db.Article.update({
+                _id: articleId
+            }, {
+                $set: {
+                    isSaved: false
+                }
+            })
+            .then(function (dbArt) {
+                res.json(dbArt);
+            }).catch(function (err) {
+                // If an error occurs, send it back to the client
+                res.json(err);
+            });
+    });
+
     app.delete("/notes/:id/:articleId", function (req, res) {
         // Equivalent to `parent.children.pull(_id)`
         const noteId = req.params.id;
