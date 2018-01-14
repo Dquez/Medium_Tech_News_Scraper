@@ -60,13 +60,20 @@
 }
 
 /* Change the color of links on hover */
-.topnav a:hover {
-    background-color: #ddd;
-    color: black;
+/* .topnav  {
+
+} */
+
+.ui.menu .item {
+    background-color: #504caf;
+    color: white;
 }
 
+.ui.menu .item:hover {
+    color:black;
+}
 /* Add a color to the active/current link */
-.topnav a.active {
+#logo {
     background-color: #4CAF50;
     color: white;
 }

@@ -28,17 +28,21 @@ module.exports = function (app) {
                 var headline = $(element).find("h3").text();
                 var summary = $(element).find("h4").text();
                 var url = $(element).find("a").attr("href");
+                var imgURL = $(element).find("a").css('background-image');
+                // this takes out the leading unwanted characters when we get a background image URL attribute
+                imgURL = imgURL.split('url("')[1];
+                // this takes out the trail quotation mark and closing parenthesis
+                imgURL = imgURL.replace('")', "");
+                console.log(imgURL);
                 // Save these results in an object that we'll push into the results array we defined earlier
                 results.push({
                     headline: headline,
                     summary: summary,
-                    url: url
+                    url: url,
+                    imgURL : imgURL
                 });
 
             });
-            // res.json(results);
-
-            // let newData = [];
             results.forEach(function (data) {
                 db.Article
                     .create(data)

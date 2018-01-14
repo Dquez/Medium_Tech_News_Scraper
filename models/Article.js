@@ -24,6 +24,12 @@ var ArticleSchema = new Schema({
     required: true,
     unique: true
   },
+  // `imgURL` is required and of type String
+  imgURL: {
+    type: String,
+    required: true,
+    unique: true
+  },
   isSaved: {
     type: Boolean,
     default: false

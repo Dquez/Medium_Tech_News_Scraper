@@ -1,96 +1,42 @@
-{{!--
-<!DOCTYPE html>
-<html lang="en-us">
-
 <head>
-  <meta charset="UTF-8">
-  <title>Scraping With Mongoose</title>
-  <style>
-    body {
-      background-color: #F2F6D0
-    }
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Medium Scraper</title>
+  <!-- CSS  -->
+  <link href="assets/css/home.css" type="text/css" rel="stylesheet" media="screen,projection">
+</head>
+<div class="ui three item menu topnav" id="myTopnav">
+  <a class="item active" id="logo" href="#medium">Medium Scraper</a>
+  <a class="item" id="saved" href="#saved-articles">Saved Articles</a>
+  <a class="item" id="scrape" href="#scrape">Scrape Medium</a>
+</div>
+<div id="myModal" class="modal">
 
-    #wrapper {
-      width: 960px;
-      margin-left: auto;
-      margin-right: auto;
-      padding-top: 5%;
-    }
-
-    #articles {
-      display: inline-block;
-      overflow: auto;
-      width: 60%;
-      height: 700px;
-    }
-
-    #notes {
-      float: right;
-      width: 30%;
-    }
-
-    textarea,
-    input {
-      display: block;
-      width: 100%;
-      background-color: #FCF5C7;
-    }
-
-    input {
-      height: 36px;
-      font-size: 24px;
-    }
-
-    textarea {
-      height: 200px;
-      font-size: 18px;
-    }
-  </style>
-</head> --}} {{!--
-
-<body> --}}
-
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Medium Scraper</title>
-    <!-- CSS  -->
-    <link href="assets/css/home.css" type="text/css" rel="stylesheet" media="screen,projection">
-  </head>
-  <div class="topnav" id="myTopnav">
-    <a class="active" href="#medium">Medium Scraper</a>
-    <a id="saved" href="#saved-articles">Saved Articles</a>
-    <a id="scrape" href="#scrape">Scrape Medium</a>
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="article-info">Added
+      <span id="article-length"></span> new articles!
+    </p>
   </div>
-  {{!--
-  <button id="scrape">SCRAPE MEDIUM!</button> --}}
-  <!-- The Modal -->
-  <div id="myModal" class="modal">
 
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p id="article-info">Added <span id="article-length"></span> new articles! 
-      </p>
-    </div>
-
+</div>
+<div id="wrapper">
+  <div id="headline">
+  <h1>Note Scraper</h1>
+    <h2>Get ready to scrape some Medium website for some awesome articles!</h2>
   </div>
-  <div id="wrapper">
-    <h1>Note Scraper</h1>
-    <h2>
-      Get ready to scrape some Medium website for some awesome articles!
-    </h2>
-    <div id="articles">
-      {{#each articles}}
-      <p>{{headline}}
-        <br />{{summary}}
-        <br />{{url}}</p>
-      <button data-id={{_id}} class='saveArticle'>SAVE ARTICLE</button>
-      {{/each}}
-    </div>
-    <div id="notes"></div>
+  <div id="articles">
+    {{#each articles}}
+    <p>{{headline}}
+      <img src={{imgURL}} alt={{headline}} id="img-{{_id}}"/>
+      <br />{{summary}}
+      <br />{{url}}</p>
+    <button data-id={{_id}} class='saveArticle'>SAVE ARTICLE</button>
+    {{/each}}
   </div>
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script> --}}
-    <script src="/assets/js/home.js"></script>
+  <div id="notes"></div>
+</div>
+{{!--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script> --}}
+<script src="/assets/js/home.js"></script>

@@ -8,7 +8,7 @@ $("#scrape").on("click", function () {
       method: "GET",
       url: "/"
     }).done(function (data) {
-      // console.log(data.length);
+      // $("#articles").empty();
       let modal = $("#myModal");
       $(modal).css("display", "block");
       // the results paramater was passed in the callback function from when we scraped Medium
@@ -22,10 +22,14 @@ $("#scrape").on("click", function () {
           window.location.replace("/");
         }
       }
-      
     });
   })
 })
+
+// Takes out the headline content once the articles have been populated
+if ($("#articles").children().length > 1){
+  $("#headline").empty();
+}
 
 $(document).on("click", ".saveArticle", function () {
   // Save the id from the p tag
