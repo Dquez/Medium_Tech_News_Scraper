@@ -5,11 +5,11 @@
     <!-- CSS  -->
     <link href="assets/css/saved.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
-<div class="topnav" id="myTopnav">
-    <a class="active" href="#medium">Medium Scraper</a>
-    <a href="/">Home</a>
+<div class="ui two item menu topnav" id="myTopnav">
+    <a class="item active" id="logo" href="#medium">Medium Scraper</a>
+    <a class="item" href="/">Home</a>
 </div>
-<div id="articles">
+<div class="ui column stackable grid" id="articles">
     {{#each articles}}
     <!-- Modal -->
     <div class="modal" id="modal-{{_id}}">
@@ -21,18 +21,40 @@
             </div>
             <div class="modal-body" data-id="{{_id}}">
                 <textarea class='bodyinput' name='body'></textarea>
-                <div id="notes"></div>
-                <button data-id="{{_id}}" class="save-note">Save Note</button>
-                <button class="close-modal">Close!</button>
+                <div class="ui right segment one column" id="notes"></div>
+                <div class="ui buttons">
+                    <button data-id="{{_id}}"class="ui button positive save-note">Save Note</button>
+                    <div class="or"></div>
+                    <button class="ui button close-modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
-    <p>{{headline}}
-        <br />{{summary}}
-        <br />{{url}}</p>
-    <button class="modal-trigger addNote" data-id="{{_id}}" data-modal="modal-{{_id}}">Add or check notes!</button>
-    <!-- Trigger Modal. -->
-    <button data-id={{_id}} class='removeSaved'>REMOVED FROM SAVED</button>
+    <div class="ui card">
+        <a href={{url}} target="_blank">
+            <div class="image">
+                <img class="ui centered medium image" src={{imgURL}} alt={{headline}} id="img-{{_id}}" />
+            </div>
+            <div class="content">
+                <p class="header">{{headline}}</p>
+        </a>
+        <div class="ui raised ">
+            <a data-id={{_id}} data-modal="modal-{{_id}}" class="ui green right ribbon label modal-trigger addNote">Add notes!</a>
+        </div>
+        <div class="description">
+            {{summary}}
+        </div>
+        </div>
+        <div class="extra content">
+            <div data-id={{_id}} class="ui animated inverted violet button removeSaved" tabindex="0">
+                <div class="visible content">Remove From Saved</div>
+                <div class="hidden content">
+                    <i class="left arrow icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
     {{/each}}
 </div>
+
 <script src="/assets/js/saved.js"></script>

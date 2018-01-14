@@ -1,38 +1,7 @@
-/* Add a black background color to the top navigation */
-
-.topnav {
-    background-color: #333;
-    overflow: hidden;
+* {
+    font-family: "Arial", sans-serif;
+    font-weight: normal;
 }
-
-
-/* Style the links inside the navigation bar */
-
-.topnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-}
-
-
-/* Change the color of links on hover */
-
-.topnav a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
-
-/* Add a color to the active/current link */
-
-.topnav a.active {
-    background-color: #4CAF50;
-    color: white;
-}
-
 .modal,
 .modal-box {
     z-index: 900;
@@ -62,7 +31,7 @@
 
 .modal-header {
     padding: 20px 40px;
-    background: #546E7A;
+    background: #504caf;
     color: #ffffff;
 }
 
@@ -104,48 +73,59 @@
     }
 }
 
-
-/* Aditional Styles */
-
-* {
-    font-family: "Arial", sans-serif;
-    font-weight: normal;
-}
-
 p {
     line-height: 1.4em;
 }
 
-.modal-trigger,
-button {
-    /* top: 50%;
-  left: 50%; */
-    padding: 20px 40px;
-    border: 1px solid #1a191998;
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
     text-decoration: none;
+    font-size: 17px;
 }
 
-.modal-trigger {
-    background: transparent;
-    color: #10b639;
-    position: relative;
-    top: 25px;
-    left: 8%;
-    margin-right: 3em;
-    /* position: absolute; */
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    transition: ease .2s;
+.ui.menu .item {
+    background-color: #504caf;
+    color: white;
 }
 
-button {
-    border: 1px solid #333333;
-    outline: none;
-    color: #333333;
+.ui.menu .item:hover {
+    color:black;
+}
+/* Add a color to the active/current link */
+#logo {
+    background-color: #4CAF50;
+    color: white;
 }
 
-.modal-trigger:hover {
-    padding: 20px 60px;
+/* The Semantic built in styles set these two cards to have 0 margin so their styles need to be specifically targeted in this css file */
+.ui.card:last-child {
+    margin: 10px;
+}
+.ui.animated.button {
+    background-color: #504caf;
+    color:white;
+}
+
+.ui.card>.content p:last-child, .ui.cards>.card>.content p:last-child {
+    color: green;
+}
+
+.ui.medium.image, .ui.medium.images .image, .ui.medium.images img, .ui.medium.images svg {
+    max-height:300px;
+}
+
+.ui.card {
+    position:relative;
+    left: 2em;
+    margin: 10px;
 }

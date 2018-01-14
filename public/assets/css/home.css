@@ -50,25 +50,11 @@
     overflow: hidden;
 }
 
-/* Style the links inside the navigation bar */
-.topnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-}
-
-/* Change the color of links on hover */
-/* .topnav  {
-
-} */
-
 .ui.menu .item {
     background-color: #504caf;
     color: white;
 }
+
 
 .ui.menu .item:hover {
     color:black;

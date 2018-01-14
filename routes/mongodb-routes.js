@@ -187,13 +187,11 @@ module.exports = function (app) {
                 return db.Note.findByIdAndRemove({
                     _id: noteId
                 }).then(function (removed) {
-                    console.log(removed);
+                    res.json(removed);
                 }).catch(function (err) {
                     // If an error occurs, send it back to the client
                     res.json(err);
                 });
-
-                res.json(dbArt);
             });
     });
 };

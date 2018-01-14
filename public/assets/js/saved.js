@@ -1,7 +1,6 @@
 // Whenever someone clicks a p tag
 $(document).on("click", ".addNote", function () {
-    // Empty the notes from the note section
-
+   
     // Save the id from the p tag
     var thisId = $(this).attr("data-id");
     // Now make an ajax call for the Article
@@ -14,28 +13,34 @@ $(document).on("click", ".addNote", function () {
             console.log(data);
             data.forEach(function (note) {
                 // This grabs the div with a data id equal to the article ID clicked and appends information to the specific notes div. Each addNote button opens up their own respective modal which is I traversed the DOM. Data coming in from using handlebars made this client-side manipulation of modals difficult
-                $("div").data("id", thisId).children("#notes").append(`<p>${note.message}
-                </p><button class='delNote' data-id='${note._id}'>X</button>`);
+                $("div").data("id", thisId).children("#notes").append(`<p>${note.message}</p><button class='negative ui button delNote' data-id='${note._id}'>X</button>`);
             });    
         });
 });
 
 // When you click the savenote button
 $(document).on("click", ".save-note", function () {
+    $(this).addClass("loading");
+    const removeClass = () => {
+      $(".bodyinput").val("");
+      $(this).removeClass("loading");
+    }
+    removeClass.bind(this);
+    
     // Grab the id associated with the article from the submit button
     var thisId = $(this).attr("data-id");
-    console.log($(this).siblings(".bodyinput").val());
     // Run a POST request to change the note, using what's entered in the inputs
     $.ajax({
             method: "POST",
             url: "/articles/" + thisId,
             data: {
                 // Value taken from note textarea
-                message: $(this).siblings(".bodyinput").val()
+                message: $(this).parents(".buttons").siblings(".bodyinput").val()
             }
         })
         // With that done
         .done(function (data) {
+            setTimeout(removeClass, 1000)   
             // Log the response
             console.log(data);
         });
@@ -50,8 +55,6 @@ $(document).on("click", ".delNote", function () {
     // Grab the id associated with the article from the submit button
     const thisId = $(this).data("id");
     const articleId = $(this).parents(".modal-body").data("id");
-    console.log(articleId)
-    // console.log($(this).siblings(".bodyinput").val());
     // Run a DELETE request to change the note, using what's entered in the inputs
     $.ajax({
             method: "DELETE",
@@ -62,9 +65,7 @@ $(document).on("click", ".delNote", function () {
             // Log the response
             console.log(data);
         });
-
-    // Also, remove the values entered in the input and textarea for note entry
-    // $("#titleinput").val("");
+        window.location.replace("/saved-articles");
     $(this).siblings(".bodyinput").val("");
 });
 // When you click the delete note button
