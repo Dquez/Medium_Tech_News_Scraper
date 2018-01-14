@@ -19,24 +19,48 @@
       <span id="article-length"></span> new articles!
     </p>
   </div>
-
 </div>
 <div id="wrapper">
   <div id="headline">
-  <h1>Note Scraper</h1>
+    <h1>Note Scraper</h1>
     <h2>Get ready to scrape some Medium website for some awesome articles!</h2>
   </div>
-  <div id="articles">
-    {{#each articles}}
-    <p>{{headline}}
-      <img src={{imgURL}} alt={{headline}} id="img-{{_id}}"/>
-      <br />{{summary}}
-      <br />{{url}}</p>
-    <button data-id={{_id}} class='saveArticle'>SAVE ARTICLE</button>
-    {{/each}}
-  </div>
-  <div id="notes"></div>
-</div>
-{{!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script> --}}
-<script src="/assets/js/home.js"></script>
+  {{!--
+  <div id="articles"> --}} {{!--
+    <div class="ui medium segment"> --}}
+      <div class="ui column stackable grid" id="articles">
+        {{!--
+        <div class="row"> --}} 
+          {{#each articles}}
+
+          <div class="ui card">
+            <a href={{url}} target="_blank">
+              <div class="image">
+                <img class="ui centered medium image" src={{imgURL}} alt={{headline}} id="img-{{_id}}" />
+              </div>
+              <div class="content">
+                <p class="header">{{headline}}</p>
+            </a>
+            <div class="description">
+              {{summary}}
+            </div>
+          </div>
+            <div class="extra content">
+              {{!--
+              <button data-id={{_id}} class='saveArticle'>SAVE ARTICLE</button> --}}
+              <div data-id={{_id}} class="ui animated button saveArticle" tabindex="0">
+                <div class="visible content">Save Article</div>
+                <div class="hidden content">
+                  <i class="right arrow icon"></i>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {{/each}} {{!-- </div> --}}
+      </div>
+      {{!-- </div> --}} {{!--
+    <div id="notes"></div> --}} {{!-- </div> --}} {{!--
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script> --}}
+  <script src="/assets/js/home.js"></script>

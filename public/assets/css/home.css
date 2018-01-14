@@ -1,3 +1,4 @@
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -76,4 +77,25 @@
 #logo {
     background-color: #4CAF50;
     color: white;
+}
+
+/* The Semantic built in styles set these two cards to have 0 margin so their styles need to be specifically targeted in this css file */
+.ui.card:first-child, .ui.card:last-child {
+    margin: 24px;
+}
+.ui.animated.button {
+    background-color: #504caf;
+    color:white;
+}
+
+.ui.card>.content p:last-child, .ui.cards>.card>.content p:last-child {
+    color: green;
+}
+
+.ui.medium.image, .ui.medium.images .image, .ui.medium.images img, .ui.medium.images svg {
+    max-height:300px;
+}
+
+.ui.card {
+    margin: 24px;
 }
