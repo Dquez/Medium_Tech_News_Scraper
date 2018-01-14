@@ -19,6 +19,7 @@ $("#scrape").on("click", function () {
       window.onclick = function (event) {
         if (event.target !== modal) {
           $(modal).css("display", "none");
+
           window.location.replace("/");
         }
       }
@@ -32,6 +33,12 @@ if ($("#articles").children().length > 1){
 }
 
 $(document).on("click", ".saveArticle", function () {
+  $(this).addClass("loading");
+  const removeClass = () => {
+    $(this).removeClass("loading");
+  }
+  removeClass.bind(this);
+
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
 
@@ -40,7 +47,8 @@ $(document).on("click", ".saveArticle", function () {
     method: "POST",
     url: "/save-article/" + thisId
   }).done(function (data) {
-    // console.log(data);
+    // this function sets the illusion that it takes time to save the article, otherwise the button would just be clicked and nothing would actually be visible to the user
+    setTimeout(removeClass, 1000)
   });
 });
 
