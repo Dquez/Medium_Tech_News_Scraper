@@ -1,17 +1,16 @@
-// Whenever someone clicks a p tag
+// Whenever someone clicks on the addNote button
 $(document).on("click", ".addNote", function () {
    
-    // Save the id from the p tag
-    var thisId = $(this).attr("data-id");
+    // Save the id from the button tag
+    const thisId = $(this).attr("data-id");
     // Now make an ajax call for the Article
     $.ajax({
             method: "GET",
             url: "/articles/" + thisId
         })
         // With that done, add the note information to the page
-        .done(function (data) {
-            console.log(data);
-            data.forEach(function (note) {
+        .done(data => {
+            data.forEach(note => {
                 // This grabs the div with a data id equal to the article ID clicked and appends information to the specific notes div. Each addNote button opens up their own respective modal which is I traversed the DOM. Data coming in from using handlebars made this client-side manipulation of modals difficult
                 $("div").data("id", thisId).children("#notes").append(`<p>${note.message}</p><button class='negative ui button delNote' data-id='${note._id}'>X</button>`);
             });    
@@ -20,15 +19,21 @@ $(document).on("click", ".addNote", function () {
 
 // When you click the savenote button
 $(document).on("click", ".save-note", function () {
+    // this prevents the user from submitting a blank note
+    if ($(this).parents(".buttons").siblings(".bodyinput").val().length < 1) {
+        return;
+    }
+    // This adds a little loading animation to enhance the UX
     $(this).addClass("loading");
     const removeClass = () => {
       $(".bodyinput").val("");
       $(this).removeClass("loading");
     }
+    // bind the current context of this to use later on to remove the class we just added
     removeClass.bind(this);
     
     // Grab the id associated with the article from the submit button
-    var thisId = $(this).attr("data-id");
+    const thisId = $(this).attr("data-id");
     // Run a POST request to change the note, using what's entered in the inputs
     $.ajax({
             method: "POST",
@@ -38,11 +43,8 @@ $(document).on("click", ".save-note", function () {
                 message: $(this).parents(".buttons").siblings(".bodyinput").val()
             }
         })
-        // With that done
-        .done(function (data) {
-            setTimeout(removeClass, 1000)   
-            // Log the response
-            console.log(data);
+        .done(data => {
+            setTimeout(removeClass, 1000);
         });
 
     // Also, remove the values entered in the input and textarea for note entry
@@ -98,18 +100,3 @@ $(".close-modal, .modal-sandbox").click(function () {
     });
     $("div#notes").empty();
 });
-
-// // console.log(data.length);
-// let modal = $("#saved-notes");
-// $(modal).css("display", "block");
-// // the results paramater was passed in the callback function from when we scraped Medium
-// $("#article-length").text(results.length);
-// $(".close").on("click", function () {
-//   $(modal).css("display", "none");
-// });
-// window.onclick = function (event) {
-//   if (event.target !== modal) {
-//     $(modal).css("display", "none");
-//     window.location.replace("/");
-//   }
-// }

@@ -8,32 +8,28 @@ const path = require("path");
 const db = require("../models");
 const request = require("request");
 const cheerio = require("cheerio");
-// Routes
+// Routes on the exports object
 // =============================================================
-module.exports = function (app) {
-    app.get("/scrape", function (req, res) {
-        request("https://medium.com/topic/technology", function (error, response, html) {
+module.exports =  (app) => {
+    app.get("/scrape",  (req, res) => {
+        request("https://medium.com/topic/technology", (error, response, html) => {
 
-            // Load the HTML into cheerio and save it to a variable
+            // Load the HTML into cheerio and save it to a constiable
             // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-            var $ = cheerio.load(html);
+            const $ = cheerio.load(html);
 
             // An empty array to save the data that we'll scrape
-            var results = [];
-
-            // Select each element in the HTML body from which you want information.
-            // NOTE: Cheerio selectors function similarly to jQuery's selectors,
-            // but be sure to visit the package's npm page to see how it works
-            $("div.js-trackedPost").each(function (i, element) {
-                var headline = $(element).find("h3").text();
-                var summary = $(element).find("h4").text();
-                var url = $(element).find("a").attr("href");
-                var imgURL = $(element).find("a").css('background-image');
+            let results = [];
+            //this is the div which is common amongst all our desired articles so we use this as the "parent" from which we scrape the children
+            $("div.js-trackedPost").each((i, element) => {
+                const headline = $(element).find("h3").text();
+                const summary = $(element).find("h4").text();
+                const url = $(element).find("a").attr("href");
+                let imgURL = $(element).find("a").css('background-image');
                 // this takes out the leading unwanted characters when we get a background image URL attribute
                 imgURL = imgURL.split('url("')[1];
                 // this takes out the trail quotation mark and closing parenthesis
                 imgURL = imgURL.replace('")', "");
-                console.log(imgURL);
                 // Save these results in an object that we'll push into the results array we defined earlier
                 results.push({
                     headline: headline,
@@ -43,49 +39,49 @@ module.exports = function (app) {
                 });
 
             });
-            results.forEach(function (data) {
+            // create an article in our database for each article obj pushed into the results array with predefined keys that correspond to the keys of the database collection
+            results.forEach(data => {
                 db.Article
                     .create(data)
-                    .then(function (dbArticle) {
-                        // res.send("Scrape Complete");
-                        // console.log(dbArticle);
-                    }).catch(function (err) {
+                    .then(dbArticle => {
+                        
+                    }).catch(err => {
                         // If an error occurred, log it, with the catch statement, the program won't crash when it runs into a duplicate key error
                         console.log(err.errmsg);
                     })
-            })
-            res.json(results);
+            })  
+            res.send(results);   
         });
 
     });
 
     //   Route for getting only the saved Articles from the db
-    app.get("/saved-articles", function (req, res) {
+    app.get("/saved-articles",(req, res) => {
 
         // Find all saved articles
         db.Article
             .find({
                 isSaved: true
             })
-            .then(function (dbArt) {
+            .then(dbArt => {
                 if (dbArt) {
                     let hbsObject = {
                         articles: dbArt
                     };
-                    // console.log(dbArt)
+                    
                     res.render("saved", hbsObject);
                 } else {
                     res.send(dbArt);
                 }
-            }).catch(function (err) {
+            }).catch(err => {
                 // If an error occurs, send the error back to the client
                 res.json(err);
             });
     });
 
 
-    // Route for grabbing a specific Article by id, populate it with it's note
-    app.post("/save-article/:id", function (req, res) {
+    // Route for grabbing a specific Article by id, populate it with it's notes
+    app.post("/save-article/:id", (req, res) => {
         db.Article
             .findOneAndUpdate({
                 _id: req.params.id
@@ -94,25 +90,25 @@ module.exports = function (app) {
                     isSaved: true
                 }
             })
-            .then(function (dbArt) {
+            .then( dbArt => {
                 // If all Notes are successfully found, send them back to the client
                 res.json(dbArt);
             })
-            .catch(function (err) {
+            .catch( err => {
                 // If an error occurs, send the error back to the client
                 res.json(err);
             });
     });
+
     // Route for grabbing a specific Article by id, populate it with it's note
-    app.get("/articles/:id", function (req, res) {
-        // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+    app.get("/articles/:id", (req, res) => {
         db.Article
             .findOne({
                 _id: req.params.id
             })
-            // ..and populate all of the notes associated with it
+            //populate all of the notes associated with the article queried
             .populate("notes")
-            .then(function (dbArticle) {
+            .then(dbArticle => {
                 // If we were able to successfully find an Article with the given id, send it back to the client
                 if (dbArticle.notes) {
                     res.send(dbArticle.notes);
@@ -120,19 +116,17 @@ module.exports = function (app) {
                     res.send(dbArticle);
                 }
             })
-            .catch(function (err) {
+            .catch(err => {
                 // If an error occurred, send it to the client
                 res.json(err);
             });
     });
     // Route for saving/updating an Article's associated Note
-    app.post("/articles/:id", function (req, res) {
+    app.post("/articles/:id", (req, res) => {
         db.Note
             .create(req.body)
-            .then(function (dbNote) {
-                console.log("This is dbnote: " + dbNote);
-                console.log(dbNote._id);
-                // dbNote._id = mongoose.Types.ObjectId(dbNote._id);
+            .then(dbNote => {
+                // Once we've created the note in our notes collection, we run another query using mongoose's promise based queries to update the current article with the new note's ID
                 return db.Article.findOneAndUpdate({
                     _id: req.params.id
                 }, {
@@ -142,20 +136,18 @@ module.exports = function (app) {
                 }, {
                     new: true
                 });
-                // return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
-            }).then(function (dbArt) {
-                console.log("This is dbArt: " + dbArt.notes);
+            }).then(dbArt => {
                 // If the User was updated successfully, send it back to the client
                 res.json(dbArt);
             })
-            .catch(function (err) {
+            .catch(err => {
                 // If an error occurs, send it back to the client
                 res.json(err);
             });
     });
-    app.put("/article/:id", function (req, res) {
-        // Equivalent to `parent.children.pull(_id)`
 
+// This route updates the article to remove it from the saved articles list by updating the isSaved property.
+    app.put("/article/:id", (req, res) => {
         const articleId = req.params.id;
         db.Article.update({
                 _id: articleId
@@ -164,16 +156,16 @@ module.exports = function (app) {
                     isSaved: false
                 }
             })
-            .then(function (dbArt) {
+            .then(dbArt => {
                 res.json(dbArt);
-            }).catch(function (err) {
+            }).catch(err => {
                 // If an error occurs, send it back to the client
                 res.json(err);
             });
     });
 
-    app.delete("/notes/:id/:articleId", function (req, res) {
-        // Equivalent to `parent.children.pull(_id)`
+// This route deletes a note based on it's parent article and by it's ID
+    app.delete("/notes/:id/:articleId", (req, res) => {
         const noteId = req.params.id;
         const articleId = req.params.articleId;
         db.Article.update({
@@ -183,12 +175,12 @@ module.exports = function (app) {
                     notes: noteId
                 }
             })
-            .then(function (dbArt) {
+            .then(dbArt => {
                 return db.Note.findByIdAndRemove({
                     _id: noteId
-                }).then(function (removed) {
+                }).then(removed => {
                     res.json(removed);
-                }).catch(function (err) {
+                }).catch(err => {
                     // If an error occurs, send it back to the client
                     res.json(err);
                 });

@@ -23,13 +23,14 @@
                 <textarea class='bodyinput' name='body'></textarea>
                 <div class="ui right segment one column" id="notes"></div>
                 <div class="ui buttons">
-                    <button data-id="{{_id}}"class="ui button positive save-note">Save Note</button>
+                    <button data-id="{{_id}}" class="ui button positive save-note">Save Note</button>
                     <div class="or"></div>
                     <button class="ui button close-modal">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
+    {{!-- Each article will fit into a card--}}
     <div class="ui card">
         <a href={{url}} target="_blank">
             <div class="image">
@@ -38,6 +39,7 @@
             <div class="content">
                 <p class="header">{{headline}}</p>
         </a>
+        {{!-- Ribbon used to access the notes--}}
         <div class="ui raised ">
             <a data-id={{_id}} data-modal="modal-{{_id}}" class="ui green right ribbon label modal-trigger addNote">Add notes!</a>
         </div>
