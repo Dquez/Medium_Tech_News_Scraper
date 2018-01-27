@@ -13,8 +13,8 @@ I read Medium tech news everyday on my way to work. Sometimes instead of waiting
 
 I primarily worked with node.js, handlebars, and the express frame work to handle routing, connecting to the server and sending files to the front end. On the front end, I used html, javascript, jQuery and CSS and Semantic ui styling framework.
 There is still room for improvement including adding more pages for different websites to scrape and some interactivity with clicking buttons. I included the following packages:
-* [express](https://www.npmjs.com/package/inquirer)
-* [bodyParser](https://www.npmjs.com/package/cli-table)
+* [express](https://www.npmjs.com/package/express)
+* [bodyParser](https://www.npmjs.com/package/body-parser)
 * [express-handlebars](https://www.npmjs.com/package/express-handlebars)
 * [nodemon](https://www.npmjs.com/package/nodemon)
 * [cheerio](https://www.npmjs.com/package/cheerio)
