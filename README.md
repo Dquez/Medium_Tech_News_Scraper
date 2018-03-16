@@ -1,5 +1,7 @@
 # Medium_Tech_News_Scraper
 
+![Medium Tech News Scraper](https://media.giphy.com/media/1yTgkr0z0GjPLbTjsO/giphy.gif)
+
 ## Overview
 
 In this project, I created app that allows you to scrape [Medium](https://medium.com/) This app is a full-stack app which performs multiple functions on the back end, including routing the user based on the url endpoint they request, utilizing a Mongoose ORM to query the Mongo database, and sending the data back to the user using a custom API and ajax calls.This app interacts with the databse using all the CRUD methods.
