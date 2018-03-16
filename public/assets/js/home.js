@@ -1,7 +1,4 @@
 $("#scrape").on("click", function () {
-  if ($("#articles").children().length > 1){
-    return;
-  }
   $.ajax({
     method: "GET",
     url: "/scrape"
